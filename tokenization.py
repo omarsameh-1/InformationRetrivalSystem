@@ -31,7 +31,8 @@ def get_list(dictionary):
 
 
 def get_path():
-    filePath = input("FilePath= ")
+    filePath = '/run/media/DATA/All/Projects/information-retrieval-system/documents/'
+    # filePath = input("FilePath= ")
     file_path = path.relpath(filePath)
     return file_path
 
@@ -64,7 +65,6 @@ def remove_duplicates_from_dictionary(dictionary):
     return list(list_of_terms)
 
 
-# and i used these functions in last function called constructePositionalIndexM(listOfAllTerm,GetTokensInDoc)
 def cutter(dictionary_list):
     i, fList = 0, []
     for dic in dictionary_list:
@@ -75,4 +75,3 @@ def cutter(dictionary_list):
                 fList.append({keys[i]: terms})
     i = i + 1
     return fList
-
