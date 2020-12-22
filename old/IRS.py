@@ -12,9 +12,3 @@ def Tokens(PathFolder):
         for word in line.split():
             theList.append(word.strip().lower())
     return theList
-
-
-
-
-print(list(GetTokensInDoc()))#Success Test
-#Note:-> C:\\Users\\amrahmed\\Desktop\\IR\\Documents

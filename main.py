@@ -1,5 +1,5 @@
 import tokenization
-import position_index_model
+import position_index_model as pi
 
 dictionary = tokenization.get_tokens_list()
 # print(dictionary)
@@ -7,10 +7,10 @@ dictionary = tokenization.get_tokens_list()
 dictionary_cutter = tokenization.cutter(dictionary)
 # print(dictionary)
 
-removed = tokenization.remove_duplicates_from_dictionary(dictionary_cutter)
+tokens_without_duplicates = tokenization.remove_duplicates_from_dictionary(dictionary_cutter)
 # print(removed)
 
-posting_list = position_index_model.initialize_posting_list(removed)
+posting_list = pi.initialize_posting_list(tokens_without_duplicates)
 # print(posting_list)
 
-position_index_model.construct_positional_index(dictionary, removed)
+pi.construct_positional_index(dictionary, tokens_without_duplicates)
