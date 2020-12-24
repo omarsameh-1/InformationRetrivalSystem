@@ -13,4 +13,6 @@ tokens_without_duplicates = tokenization.remove_duplicates_from_dictionary(dicti
 posting_list = pi.initialize_posting_list(tokens_without_duplicates)
 # print(posting_list)
 
-pi.construct_positional_index(dictionary, tokens_without_duplicates)
+positional_index = pi.construct_positional_index(dictionary, tokens_without_duplicates)
+
+pi.phrase_query('amr is a bad boy, while ahmed is a good boy', positional_index)
