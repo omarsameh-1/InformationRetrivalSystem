@@ -53,8 +53,23 @@ def calc_similarity(normalize_TFidfs_of_document, normalize_TFidfs_of_query):
 
 
 # vector_space_model = {
-#   "docID": [ {"term" : } ] da el table el wa7da 
+#   "docID": {"terms" :[{"term1" : [termfreq , tfw , idf , tfidf , normalize Tfidf]}
+#                      {"term2" : [termfreq , tfw , idf , tfidf , normalize Tfidf]}] 
+#             "docLength" : doclengthvalue
+#             "cos smi" : cos smi value             }  da el table el wa7da 
 #   "docID": [ {""} ]
 #   "docID": [ {""} ]
-
 # }
+
+# positional_index = {
+#   "term": [docfreq, {"docID": [postions]}, {"docID": [postions]}]
+# }
+
+#[{1: ['doc', 'number', '1', 'test']}, {2: ['doc', 'number', '2', 'test']}, {3: ['amr', 'bad', 'boy']}]
+
+def initialize_vsm(dictionary_cutter):
+    vsm = {}
+    map(fun,dictionary_cutter)
+
+    print(vsm)
+

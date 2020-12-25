@@ -1,5 +1,6 @@
 import tokenization
 import position_index_model as pi
+import vector_space_model as vsm 
 
 dictionary = tokenization.get_tokens_list()
 # print(dictionary)
@@ -19,6 +20,10 @@ positional_index = pi.construct_positional_index(
 
 # print(positional_index)
 
-res = pi.phrase_query('amr is a bad number 2', positional_index)
-res.sort()
-print(res)
+# res = pi.phrase_query('amr is a bad number 2', positional_index)
+# res.sort()
+# print(res)
+
+vsm = vsm.initialize_vsm(dictionary_cutter)
+print(vsm)
+

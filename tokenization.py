@@ -31,7 +31,7 @@ def get_list(dictionary):
 
 
 def get_path():
-    filePath = '/run/media/DATA/All/Projects/information-retrieval-system/documents/'
+    filePath = './documents/'
     # filePath = input("FilePath= ")
     file_path = path.relpath(filePath)
     return file_path
