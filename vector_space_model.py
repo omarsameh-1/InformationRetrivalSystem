@@ -4,35 +4,46 @@ from numpy.core.defchararray import array
 
 '''this function take a list/array of numbers as function 
     and return a list of numbers after perform 1+log(input)'''
+
+
 def calc_term_frequency_weight(term_frequency):
-    if term_frequency==0:
+    if term_frequency == 0:
         return 0
     else:
         return list(1+(np.log(term_frequency)/m.log(10)))
 
+
 '''it takes number of documents in the folder and returns the idf'''
-def calc_idf(number_of_docs,document_frequency):
+
+
+def calc_idf(number_of_docs, document_frequency):
     return m.log(number_of_docs/document_frequency)
 
+
 ''' it will be used for each term'''
-def calc_term_TFidf(term_frequency_weight,idf):
+
+
+def calc_term_TFidf(term_frequency_weight, idf):
     return term_frequency_weight*idf
+
 
 def document_length(TFidfs_of_document):
     return np.linalg.norm(array(TFidfs_of_document))
 
+
 '''this function take TFidf of a term in a spacific document 
     and the length of that spacific document and returns the normlize_TFidf'''
-def normalize_TFidf(term_TFidf,document_length):
+
+
+def normalize_TFidf(term_TFidf, document_length):
     return term_TFidf/document_length
+
 
 '''this fucntion takes a list of the normlize TFidf of all terms 
     in a spacific document and a list the normlize TFidf of all terms 
     in the query and return "the score for that spacific document"=(similiraty
     between that document and the query)'''
-def calc_similarity(normalize_TFidfs_of_document,normalize_TFidfs_of_query):
-    return (np.dot(normalize_TFidfs_of_document,normalize_TFidfs_of_query))
 
 
-
-
+def calc_similarity(normalize_TFidfs_of_document, normalize_TFidfs_of_query):
+    return (np.dot(normalize_TFidfs_of_document, normalize_TFidfs_of_query))

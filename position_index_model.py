@@ -5,6 +5,7 @@
 #
 import stopwords
 
+
 def initialize_posting_list(tokens_list):
     posting_list = {}
     for token in tokens_list:
@@ -41,20 +42,7 @@ def construct_positional_index(main_dictionary, tokens_list):
 
 
 def difference_between_two_arrays(first_document_positions, second_document_positions):
-    # # We loop through second list
-    # for second_doc_index, pos in enumerate(second_document_positions):
-    #     first_doc_length = len(first_document_positions)
-    #     # Check if second list is larger or equal to the first list
-    #     if(len(second_document_positions) >= first_doc_length):
-    #         # Check if item of second
-    #         if(pos > first_document_positions[second_doc_index] and (pos - first_document_positions[second_doc_index] == 1)):
-    #             return True
-    #     else:
-    #         # second list is smaller than first list
-    #         if(first_doc_length != second_doc_index):
-    #             if(pos > first_document_positions[second_doc_index] and (pos - first_document_positions[second_doc_index] == 1)):
-    #                 return True
-    # return False
+    # We loop through second list
     for second_pos in second_document_positions:
         for first_pos in first_document_positions:
             # if element in second list is less than first list, then break and catch the next element in second list
@@ -66,7 +54,7 @@ def difference_between_two_arrays(first_document_positions, second_document_posi
             # if none of the above and the difference between elements positions are one, return true as match is found
             if(second_pos - first_pos == 1):
                 return True
-    return False            
+    return False
 
 
 # occurrence object = [{doc_id:[positions]}]
@@ -77,7 +65,8 @@ def compare_two_term_occurrences(first_term_occurrences, second_term_occurrences
             for second_occurence in second_term_occurrences:
                 for second_document_id, second_document_positions in second_occurence.items():
                     if(first_document_id == second_document_id):
-                        found = difference_between_two_arrays(first_document_positions, second_document_positions)
+                        found = difference_between_two_arrays(
+                            first_document_positions, second_document_positions)
                         if(found):
                             result.append(first_document_id)
     return result
@@ -86,14 +75,14 @@ def compare_two_term_occurrences(first_term_occurrences, second_term_occurrences
 # [2,6,7]
 
 # print(compare_two_term_occurrences(
-#         [{1:[1,3,6]}, {2:[4, 5, 10, 15]}, {3: [4,6,7]}], 
+#         [{1:[1,3,6]}, {2:[4, 5, 10, 15]}, {3: [4,6,7]}],
 #         [{1:[1, 3, 4, 5]}, {3: [3,4,5,6]}]))
 # print(compare_two_term_occurrences([{1:[1,3,6]}], [{1:[1, 4, 5, 6, 7]}]))
 
 
 def find_term_occurrences_in_positional_index(term, positional_index):
     for positional_index_term, occurences in positional_index.items():
-        if term == positional_index_term: 
+        if term == positional_index_term:
             # Here we are making a copy of the list to not affect the original list
             occurences_copy = occurences.copy()
             del occurences_copy[0]
@@ -103,43 +92,27 @@ def find_term_occurrences_in_positional_index(term, positional_index):
 # positional_index = {
 #   "term": [docfreq, {"docID": [postions]}, {"docID": [postions]}]
 # }
-# 
+#
 # returns doc ids if match found
+
+
 def phrase_query(query, positional_index):
     # tokenize query, remove stopwords
     tokens = query.split(' ')
     tokens = stopwords.extract_stopwords(tokens)
-    tokens = [word.replace('.','') for word in tokens]
-    tokens = [word.replace(',','') for word in tokens]
+    tokens = [word.replace('.', '') for word in tokens]
+    tokens = [word.replace(',', '') for word in tokens]
     tokens = [word.strip().lower() for word in tokens]
 
     result = []
-    # catch first term from query
-    # find term and its positions in each doc in positional index
-    # get same data for second term,
-    # compare positions in each doc for first and second, if difference is 1, add to result
-    # else not found in doc
-    
-    # for index, first_term in enumerate(tokens):
-    #     if(tokens[-1] == first_term):
-    #         return result
-    #     second_term = tokens[index + 1]
-    #     for term_name, documents_array in positional_index.items():
-    #         if(term_name == first_term):
-    #             # continue
-    #             first_term_occurrences = documents_array
-    #         if(term_name == second_term):
-    #             # continue
-    #             second_term_occurrences = documents_array
-
     first_occurrences = []
     second_occurrences = []
-    
 
     # Loop through terms in query
     for index, term in enumerate(tokens):
         # Find first term occurrences
-        first_occurrences = find_term_occurrences_in_positional_index(term, positional_index)
+        first_occurrences = find_term_occurrences_in_positional_index(
+            term, positional_index)
         # check if occurrences found or not, if not found skip to next term
         if not first_occurrences:
             continue
@@ -148,13 +121,15 @@ def phrase_query(query, positional_index):
         if (index + 1) == len(tokens):
             break
         next_term = tokens[index+1]
-        second_occurrences = find_term_occurrences_in_positional_index(next_term,positional_index) 
+        second_occurrences = find_term_occurrences_in_positional_index(
+            next_term, positional_index)
         # if second occurrences not found , reset first occurrences and start over
         if not second_occurrences:
             first_occurrences = []
             continue
         # if second occurrences found, compare both occurrences
-        res = compare_two_term_occurrences(first_occurrences, second_occurrences)
+        res = compare_two_term_occurrences(
+            first_occurrences, second_occurrences)
         # if no result found, skip and continue
         if not res:
             continue
@@ -162,4 +137,3 @@ def phrase_query(query, positional_index):
         result.append(res)
         # Returning this way to remove the arrays
     return [doc[0] for doc in result]
-
