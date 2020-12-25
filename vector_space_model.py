@@ -6,18 +6,19 @@ from numpy.core.defchararray import array
     and return a list of numbers after perform 1+log(input)'''
 
 
+
 def calc_term_frequency_weight(term_frequency):
     if term_frequency == 0:
         return 0
     else:
-        return list(1+(np.log(term_frequency)/m.log(10)))
+        return (1+(np.log(term_frequency)/m.log(10)))
 
 
 '''it takes number of documents in the folder and returns the idf'''
 
-
+''' to get all number of docs we can implement a function that works on reading files function (toknization phase)'''
 def calc_idf(number_of_docs, document_frequency):
-    return m.log(number_of_docs/document_frequency)
+    return m.log10(number_of_docs/document_frequency)
 
 
 ''' it will be used for each term'''
@@ -44,6 +45,16 @@ def normalize_TFidf(term_TFidf, document_length):
     in the query and return "the score for that spacific document"=(similiraty
     between that document and the query)'''
 
-
+#doc normalized list = [0.67 , 0.511 , 0 , 0.53]
+# query normalized list = [0 , 0 , 0.768 , 0.680]
+#cos simi = 0.36
 def calc_similarity(normalize_TFidfs_of_document, normalize_TFidfs_of_query):
     return (np.dot(normalize_TFidfs_of_document, normalize_TFidfs_of_query))
+
+
+# vector_space_model = {
+#   "docID": [ {"term" : } ] da el table el wa7da 
+#   "docID": [ {""} ]
+#   "docID": [ {""} ]
+
+# }
