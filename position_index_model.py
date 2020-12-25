@@ -91,16 +91,27 @@ def compare_two_term_occurrences(first_term_occurrences, second_term_occurrences
 # print(compare_two_term_occurrences([{1:[1,3,6]}], [{1:[1, 4, 5, 6, 7]}]))
 
 
+def find_term_occurrences_in_positional_index(term, positional_index):
+    for positional_index_term, occurences in positional_index.items():
+        if term == positional_index_term: 
+            # Here we are making a copy of the list to not affect the original list
+            occurences_copy = occurences.copy()
+            del occurences_copy[0]
+            return occurences_copy
+    return []
+
 # positional_index = {
 #   "term": [docfreq, {"docID": [postions]}, {"docID": [postions]}]
 # }
 # 
-# Match found in doc #1
+# returns doc ids if match found
 def phrase_query(query, positional_index):
     # tokenize query, remove stopwords
     tokens = query.split(' ')
     tokens = stopwords.extract_stopwords(tokens)
-    print(tokens)
+    tokens = [word.replace('.','') for word in tokens]
+    tokens = [word.replace(',','') for word in tokens]
+    tokens = [word.strip().lower() for word in tokens]
 
     result = []
     # catch first term from query
@@ -121,9 +132,34 @@ def phrase_query(query, positional_index):
     #             # continue
     #             second_term_occurrences = documents_array
 
-    # for index, term in enumerate(tokens):
+    first_occurrences = []
+    second_occurrences = []
+    
 
-            
-            
-            
-        
+    # Loop through terms in query
+    for index, term in enumerate(tokens):
+        # Find first term occurrences
+        first_occurrences = find_term_occurrences_in_positional_index(term, positional_index)
+        # check if occurrences found or not, if not found skip to next term
+        if not first_occurrences:
+            continue
+        # if found occurrences catch the second term and find its occurrences
+        # print(tokens[index+1])
+        if (index + 1) == len(tokens):
+            break
+        next_term = tokens[index+1]
+        second_occurrences = find_term_occurrences_in_positional_index(next_term,positional_index) 
+        # if second occurrences not found , reset first occurrences and start over
+        if not second_occurrences:
+            first_occurrences = []
+            continue
+        # if second occurrences found, compare both occurrences
+        res = compare_two_term_occurrences(first_occurrences, second_occurrences)
+        # if no result found, skip and continue
+        if not res:
+            continue
+        # if result found return result
+        result.append(res)
+        # Returning this way to remove the arrays
+    return [doc[0] for doc in result]
+
