@@ -18,7 +18,7 @@ def get_positions_in_doc(term, doc):
     return positions
 
 
-def calc_term_frequency(term, doc):
+def calc_term_frequency_in_doc(term, doc):
     return len(get_positions_in_doc(term, doc))
 
 
