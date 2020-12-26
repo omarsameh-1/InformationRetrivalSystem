@@ -18,7 +18,7 @@ positional_index = pi.construct_positional_index(
     dictionary, tokens_without_duplicates)
 
 # print(positional_index)
-
-res = pi.phrase_query('amr is a bad number 2', positional_index)
+query=input("Enter your query: ")
+res = pi.phrase_query(query, positional_index)
 res.sort()
 print(res)
