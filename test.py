@@ -26,7 +26,7 @@ def test_vsm():
 
 
 ## length fun takes ifdfs list 
-    length= vsm.document_length([0.584,0.584,0.584])
+    length= vsm.calc_document_length([0.584,0.584,0.584])
     print(length)
     if(length == 1.011 ):
         print( "length works pretty fine")

@@ -6,7 +6,7 @@ dictionary = tokenization.get_tokens_list()
 # print(dictionary)
 
 dictionary_cutter = tokenization.cutter(dictionary)
-# print(dictionary)
+# print(dictionary_cutter)
 
 tokens_without_duplicates = tokenization.remove_duplicates_from_dictionary(
     dictionary_cutter)
@@ -24,6 +24,6 @@ positional_index = pi.construct_positional_index(
 # res.sort()
 # print(res)
 
-vsm = vsm.initialize_vsm(dictionary_cutter)
+vsm = vsm.construct_vsm(dictionary_cutter)
 print(vsm)
 
