@@ -102,12 +102,20 @@ def construct_vsm(dictionary_cutter):
                 for term, props in term.items():
                     # function made to abstract the setting props part 
                     set_term_props(doc_id, term, props)
-        obj["doc_length"] = "doc length"
+        
+        """ obj["tfidfs_of_docs"] = []
+            obj["tfidfs_of_docs"].append(props["tfidf]) 
+            after this you may have all idfs for all terms """
+
+
+        obj["doc_length"] = "doc length" '''calc_document_length(TFidfs_of_docs) '''
         obj["cosine_similarity"] = "cosine similarity value"
     return initial_vsm
 
 
 # Function to fill each term's props
+
+""" we can pass pi[term] to the function in order to get docfreq """
 def set_term_props(doc_id, term, props):
     # retrieve all docs with their tokens
     tokens = tk.get_tokens_list()
@@ -123,12 +131,17 @@ def set_term_props(doc_id, term, props):
 
     # ONLY CHANGE THOSE #
     document_frequency = 'doc frequency'
+    """ document_frequency = pit[term][0]  which is always the docfre of the term as we construct the pi before """
     # ONLY CHANGE ABOVE # 
 
     term_frequency_weight = calc_term_frequency_weight(term_frequency)
     idf = calc_idf(number_of_docs, document_frequency)
     tfidf = calc_term_TFidf(term_frequency_weight, idf)
 
+"""tfidfs_of_doc can be at the same level of legnth key and be a list then append to it every tfidf we get 
+
+it will be like {"tfidfs = [tfidf_of_doc1,tfidf_of_doc1,tfidf_of_doc1]} 
+"""
     tfidfs_of_doc = 'tfidfs of doc'
 
     document_length = calc_document_length(tfidfs_of_doc)
