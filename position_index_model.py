@@ -134,6 +134,7 @@ def phrase_query(query, positional_index):
         if not res:
             continue
         # if result found return result
-        result.append(res)
+        for id in res:
+            result.append(id)
         # Returning this way to remove the arrays
-    return [doc[0] for doc in result]
+    return result

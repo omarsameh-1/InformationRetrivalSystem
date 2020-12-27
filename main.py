@@ -20,10 +20,10 @@ positional_index = pi.construct_positional_index(
 
 # print(positional_index)
 
-# res = pi.phrase_query('amr is a bad number 2', positional_index)
+res = pi.phrase_query('amr is a bad number 2', positional_index)
 # res.sort()
 # print(res)
 
-vsm = vsm.construct_vsm(dictionary_cutter)
+vsm = vsm.construct_vsm(dictionary_cutter, positional_index)
 print(vsm)
 
