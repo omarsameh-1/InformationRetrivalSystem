@@ -32,6 +32,7 @@ def get_list(dictionary):
 
 def get_path():
     filePath = './documents/'
+    # filePath = '/home/yousef/Downloads/ACL_txt/'
     # filePath = input("FilePath= ")
     file_path = path.relpath(filePath)
     return file_path
@@ -45,13 +46,16 @@ def get_tokens_list():
     folder_path = get_path()
     for path in pathlib.Path(folder_path).iterdir():
         if path.is_file():
-            current_file = open(path, "r")
+            current_file = open(path, "r", errors="ignore")
         tokens_list = tokenize(current_file)
         tokens_list = extract_stopwords(tokens_list)
         if not tokens_list:
             continue
         dictionary = {doc_id: tokens_list}
         doc_id += 1
+        # print(doc_id)
+        # if(doc_id == 5):
+        #     break
         dictionaries_list.append(dictionary.copy())
     return dictionaries_list
 

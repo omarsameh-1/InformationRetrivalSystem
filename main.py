@@ -10,7 +10,7 @@ dictionary_cutter = tokenization.cutter(dictionary)
 
 tokens_without_duplicates = tokenization.remove_duplicates_from_dictionary(
     dictionary_cutter)
-# print(removed)
+# print(tokens_without_duplicates)
 
 posting_list = pi.initialize_posting_list(tokens_without_duplicates)
 # print(posting_list)
@@ -24,6 +24,9 @@ res = pi.phrase_query('amr is a bad number 2', positional_index)
 # res.sort()
 # print(res)
 
-vsm = vsm.construct_vsm(dictionary_cutter, positional_index)
-print(vsm)
+vsm_model = vsm.construct_vsm(dictionary_cutter, positional_index)
+# print(vsm)
+
+vsm_result = vsm.search_vsm("amr bad", vsm_model)
+print(vsm_result)
 

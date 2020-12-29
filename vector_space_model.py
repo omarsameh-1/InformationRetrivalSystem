@@ -2,10 +2,11 @@ import numpy as np
 import math as m
 from numpy.core.defchararray import array
 import tokenization as tk
+import stopwords
+from collections import OrderedDict
 
 '''this function take a list/array of numbers as function 
     and return a list of numbers after perform 1+log(input)'''
-
 
 def calc_term_frequency_weight(term_frequency):
     if term_frequency == 0:
@@ -18,13 +19,11 @@ def calc_term_frequency_weight(term_frequency):
 
 ''' to get all number of docs we can implement a function that works on reading files function (toknization phase)'''
 
-
 def calc_idf(number_of_docs, document_frequency):
     return m.log10(number_of_docs/document_frequency)
 
 
 ''' it will be used for each term'''
-
 
 def calc_term_TFidf(term_frequency_weight, idf):
     return term_frequency_weight*idf
@@ -36,7 +35,6 @@ def calc_document_length(TFidfs_of_document):
 
 '''this function take TFidf of a term in a spacific document 
     and the length of that spacific document and returns the normlize_TFidf'''
-
 
 def calc_normalize_TFidf(term_TFidf, document_length):
     return term_TFidf/document_length
@@ -146,7 +144,34 @@ def set_term_props(doc_id, term, props, term_pi):
 
 
 def search_vsm(query, vsm):
-    result = []
-    # LAST THING TO DO
+    # tokenize query
+    tokens = query.split(' ')
+    tokens = stopwords.extract_stopwords(tokens)
+    tokens = [word.replace('.', '') for word in tokens]
+    tokens = [word.replace(',', '') for word in tokens]
+    tokens = [word.strip().lower() for word in tokens]
 
+    query_term_frequency = {}
+    for token in tokens:
+        query_term_frequency[token] = tokens.count(token)
+
+    relevance_scores = {}
+    # loop over all docs
+    for doc_id in vsm.keys():
+        # doc_id is doc name and initiate score = 0
+        score = 0
+        # catch each token in tokens list of query
+        for token in tokens:
+            for term in vsm[doc_id]['terms']:
+                for term_name, props in term.items():
+                    if(term_name == token):
+                        score += query_term_frequency[token] * props['tfidf']
+        # in each doc search for the whole query
+        # relevance_scores = {doc_id: score}
+        relevance_scores[doc_id] = score
+
+        # returns sorted list in descending order
+        sorted_value = OrderedDict(sorted(relevance_scores.items(), key=lambda x: x[1], reverse = True))
+        result = {k:sorted_value[k] for k in list(sorted_value) if sorted_value[k] != 0}
     return result
+
